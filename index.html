@@ -76,6 +76,15 @@
     button:hover {
       background-color: #219150;
     }
+    .info-box {
+      margin-top: 20px;
+      background: #fff8dc;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #e0c97f;
+      font-size: 16px;
+      line-height: 1.7;
+    }
   </style>
 </head>
 <body>
@@ -116,14 +125,17 @@
         <option value="موف موني - Moov Money">موف موني - Moov Money</option>
       </select>
 
-      <label for="account_number">رقم الحساب أو الهاتف الذي تم الدفع عليه:</label>
-      <input type="text" id="account_number" name="account_number" required />
+      <div class="info-box">
+        <strong>يرجى إرسال مبلغ الشحن إلى:</strong><br>
+        الرقم: <strong>22227374659</strong><br>
+        متاح على جميع البنوك المذكورة أعلاه.
+      </div>
 
       <button type="submit">إرسال الطلب</button>
     </form>
   </div>
 
-  <!-- نموذج دعم عند تأخر الشحن -->
+  <!-- نموذج بلاغ: لم يصلني الشحن -->
   <div id="supportForm" class="form-container">
     <h2>بلاغ: لم يصلني الشحن</h2>
     <form action="https://formspree.io/f/xgvzelnn" method="POST">
