@@ -3,57 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>شحن شدات ببجي</title>
+  <title>طلب شحن شدات ببجي</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
       padding: 20px;
+      direction: rtl;
+      text-align: right;
+      color: #333;
     }
     .container {
       background: white;
-      max-width: 400px;
+      max-width: 450px;
       margin: auto;
-      padding: 20px;
+      padding: 25px 30px;
       border-radius: 12px;
-      box-shadow: 0 0 10px #ccc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    input, select, button {
+    h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+      font-weight: 700;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    input[type="text"],
+    select,
+    input[type="file"] {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 16px;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    input[type="file"] {
+      padding: 5px 12px;
     }
     button {
-      background-color: #28a745;
-      color: white;
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px 0;
+      background-color: #27ae60;
       border: none;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #218838;
+      background-color: #219150;
+    }
+    .price-info {
+      font-size: 14px;
+      color: #555;
+      margin-top: -8px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>طلب شحن شدات ببجي</h2>
-    <form action="#" method="POST">
-      <label>معرّف اللاعب (ID):</label>
-      <input type="text" name="player_id" placeholder="مثال: 1234567890" required />
+    <h2>نموذج طلب شحن شدات ببجي</h2>
+    <form action="#" method="POST" enctype="multipart/form-data">
+      <label for="player_id">معرّف اللاعب (ID):</label>
+      <input type="text" id="player_id" name="player_id" placeholder="مثال: 1234567890" required />
 
-      <label>عدد الشدات المطلوبة:</label>
-      <select name="uc_amount" required>
-        <option value="60">60 شدة - 1.29 دولار</option>
-        <option value="325">325 شدة - 6.49 دولار</option>
-        <option value="660">660 شدة - 12.99 دولار</option>
-        <option value="1800">1800 شدة - 32.49 دولار</option>
+      <label for="uc_amount">عدد الشدات المطلوبة:</label>
+      <select id="uc_amount" name="uc_amount" required>
+        <option value="60">60 شدة - 1.29 دولار - حوالي 75 أوقية موريتانية</option>
+        <option value="325">325 شدة - 6.49 دولار - حوالي 380 أوقية موريتانية</option>
+        <option value="660">660 شدة - 12.99 دولار - حوالي 760 أوقية موريتانية</option>
+        <option value="1800">1800 شدة - 32.49 دولار - حوالي 1900 أوقية موريتانية</option>
       </select>
 
-      <label>رقم واتساب للتواصل:</label>
-      <input type="text" name="whatsapp" placeholder="مثال: 222xxxxxxx" required />
+      <label for="whatsapp">رقم واتساب للتواصل:</label>
+      <input type="text" id="whatsapp" name="whatsapp" placeholder="مثال: 222xxxxxxx" required />
+
+      <label for="payment_proof">إرفاق صورة إثبات الدفع:</label>
+      <input type="file" id="payment_proof" name="payment_proof" accept="image/*" required />
 
       <button type="submit">إرسال الطلب</button>
     </form>
