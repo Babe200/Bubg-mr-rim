@@ -8,26 +8,26 @@
   <style>
     body {
       font-family: 'Cairo', sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f9f9f9;
       padding: 20px;
-      direction: rtl;
       color: #333;
+      direction: rtl;
     }
-    .form-box {
-      max-width: 500px;
+    .container {
+      max-width: 550px;
       margin: auto;
       background: white;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     h2 {
       text-align: center;
       color: #2c3e50;
     }
     label {
-      display: block;
       margin-top: 15px;
+      display: block;
       font-weight: bold;
     }
     input, select {
@@ -37,191 +37,154 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 16px;
+      box-sizing: border-box;
     }
     button {
       margin-top: 25px;
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       background-color: #27ae60;
       color: white;
       border: none;
-      border-radius: 8px;
       font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
       cursor: pointer;
     }
     button:hover {
       background-color: #219150;
     }
-    .info-box {
-      background: #fff8dc;
-      padding: 12px;
-      margin-top: 20px;
-      border-radius: 6px;
-      border: 1px solid #e0c97f;
+    .tab {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
     }
-    .link-button {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .link-button a {
-      color: #2980b9;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .success {
-      color: green;
-      margin-top: 15px;
-      text-align: center;
-    }
-    #installApp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #34495e;
-      color: white;
+    .tab button {
+      flex: 1;
+      background: none;
       border: none;
-      padding: 12px 20px;
+      padding: 10px;
       font-size: 16px;
-      border-radius: 8px;
       cursor: pointer;
-      z-index: 1000;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+    }
+    .tab button.active {
+      border-bottom: 3px solid #27ae60;
+      color: #27ae60;
+    }
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="form-box">
-    <h2>طلب شحن شدات ببجي</h2>
-    <form id="orderForm" action="https://formspree.io/f/xgvzelnn" method="POST">
-      <label for="player_id">معرّف اللاعب (ID):</label>
-      <input type="text" id="player_id" name="player_id" required />
 
-      <label for="uc_amount">عدد الشدات المطلوبة:</label>
-      <select id="uc_amount" name="uc_amount" required>
+<div class="container">
+  <div class="tab">
+    <button id="btnOrder" class="active" onclick="switchForm('order')">طلب شحن</button>
+    <button id="btnSupport" onclick="switchForm('support')">لم يصلني الشحن</button>
+  </div>
+
+  <!-- طلب شحن -->
+  <div id="form-order" class="form-section active">
+    <h2>طلب شحن شدات ببجي</h2>
+    <form action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="9f65bc6c-3626-42b3-a9ba-614af5102449">
+      <input type="hidden" name="subject" value="طلب شحن شدات ببجي">
+      <input type="checkbox" name="botcheck" style="display:none">
+
+      <label>معرّف اللاعب (ID):</label>
+      <input type="text" name="player_id" required pattern="\d{8,13}" title="الرجاء إدخال آيدي يتكون من 8 إلى 13 رقمًا.">
+
+      <label>عدد الشدات:</label>
+      <select name="uc_amount" required>
         <option value="60">60 شدة - 50 أوقية</option>
         <option value="325">325 شدة - 220 أوقية</option>
         <option value="660">660 شدة - 450 أوقية</option>
         <option value="1800">1800 شدة - 1120 أوقية</option>
       </select>
 
-      <label for="whatsapp">رقم واتساب للتواصل:</label>
-      <input type="text" id="whatsapp" name="whatsapp" required />
+      <label>رقم واتساب:</label>
+      <input type="text" name="whatsapp" required pattern="222\d{8}" title="يجب أن يبدأ بـ 222 ويليه 8 أرقام.">
 
-      <label for="transaction_number">رقم المعاملة أو المرجع:</label>
-      <input type="text" id="transaction_number" name="transaction_number" required />
+      <label>رقم المعاملة أو المرجع:</label>
+      <input type="text" name="transaction_number" required>
 
-      <label for="bank_name">اختر البنك:</label>
-      <select id="bank_name" name="bank_name" required>
+      <label>اختر البنك:</label>
+      <select name="bank_name" required>
         <option value="السداد - Sedad">السداد - Sedad</option>
         <option value="مصرفي - Masrvi">مصرفي - Masrvi</option>
         <option value="بيم بنك - Bimbank">بيم بنك - Bimbank</option>
         <option value="رصيدي - Rassidy">رصيدي - Rassidy</option>
       </select>
 
-      <div class="info-box">
-        <strong>يرجى إرسال المبلغ إلى:</strong><br>
-        الرقم: <strong>22227374659</strong><br>
-        متاح عبر البنوك المذكورة أعلاه.
+      <div style="margin-top:15px;font-size:14px;">
+        الرجاء إرسال المبلغ إلى الرقم: <strong>22227374659</strong> عبر أحد البنوك أعلاه.
       </div>
 
-      <div id="orderMessage" class="error"></div>
-      <div id="orderSuccess" class="success"></div>
       <button type="submit">إرسال الطلب</button>
     </form>
-
-    <div class="link-button">
-      <a href="#" onclick="document.getElementById('orderForm').style.display='none';document.getElementById('supportForm').style.display='block'; return false;">لم يصلك الشحن؟</a>
-    </div>
   </div>
 
-  <div class="form-box" id="supportForm" style="display:none">
+  <!-- بلاغ: لم يصلني الشحن -->
+  <div id="form-support" class="form-section">
     <h2>بلاغ: لم يصلني الشحن</h2>
-    <form action="https://formspree.io/f/xgvzelnn" method="POST">
-      <label for="phone">رقم الهاتف المستخدم في الدفع:</label>
-      <input type="text" id="phone" name="phone" required />
+    <form action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="9f65bc6c-3626-42b3-a9ba-614af5102449">
+      <input type="hidden" name="subject" value="بلاغ: لم يصلني الشحن">
+      <input type="checkbox" name="botcheck" style="display:none">
 
-      <label for="transaction_number">رقم المعاملة أو المرجع:</label>
-      <input type="text" id="transaction_number" name="transaction_number" required />
+      <label>رقم الهاتف الذي تم الدفع منه:</label>
+      <input type="text" name="payment_phone" required pattern="222\d{8}" title="يجب أن يبدأ بـ 222 ويليه 8 أرقام.">
 
-      <label for="proof_link">رابط إثبات الدفع (Google Drive):</label>
-      <input type="url" id="proof_link" name="proof_link" required />
+      <label>رقم المعاملة أو المرجع:</label>
+      <input type="text" name="transaction_number" required>
 
-      <label for="payment_date">تاريخ الدفع:</label>
-      <input type="date" id="payment_date" name="payment_date" required />
+      <label>رابط إثبات الدفع (Google Drive):</label>
+      <input type="url" name="proof_link" required>
 
-      <label for="payment_time">وقت الدفع:</label>
-      <input type="time" id="payment_time" name="payment_time" required />
+      <label>تاريخ الدفع:</label>
+      <input type="date" name="payment_date" required>
 
-      <label for="bank_name">اختر البنك:</label>
-      <select id="bank_name" name="bank_name" required>
+      <label>وقت الدفع:</label>
+      <input type="time" name="payment_time" required>
+
+      <label>اختر البنك:</label>
+      <select name="bank_name" required>
         <option value="السداد - Sedad">السداد - Sedad</option>
         <option value="مصرفي - Masrvi">مصرفي - Masrvi</option>
         <option value="بيم بنك - Bimbank">بيم بنك - Bimbank</option>
         <option value="رصيدي - Rassidy">رصيدي - Rassidy</option>
       </select>
 
-      <label for="account_number">رقم الحساب أو الهاتف الذي تم الدفع عليه:</label>
-      <input type="text" id="account_number" name="account_number" required />
+      <label>رقم الهاتف الذي تم الدفع إليه:</label>
+      <input type="text" name="receiver_number" value="22227374659" readonly>
 
       <button type="submit">إرسال البلاغ</button>
     </form>
   </div>
+</div>
 
-  <button id="installApp" style="display: none">📲 تثبيت التطبيق</button>
+<script>
+function switchForm(type) {
+  document.getElementById('form-order').classList.remove('active');
+  document.getElementById('form-support').classList.remove('active');
+  document.getElementById('btnOrder').classList.remove('active');
+  document.getElementById('btnSupport').classList.remove('active');
 
-  <script>
-    let deferredPrompt;
-    const installBtn = document.getElementById('installApp');
+  if (type === 'order') {
+    document.getElementById('form-order').classList.add('active');
+    document.getElementById('btnOrder').classList.add('active');
+  } else {
+    document.getElementById('form-support').classList.add('active');
+    document.getElementById('btnSupport').classList.add('active');
+  }
+}
+</script>
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.style.display = 'block';
-    });
-
-    installBtn.addEventListener('click', () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(choiceResult => {
-          if (choiceResult.outcome === 'accepted') {
-            installBtn.style.display = 'none';
-          }
-          deferredPrompt = null;
-        });
-      }
-    });
-
-    function isValidPlayerID(id) {
-      return /^\d{8,13}$/.test(id);
-    }
-
-    function isValidPhone(phone) {
-      return /^222\d{8}$/.test(phone);
-    }
-
-    document.getElementById('orderForm').addEventListener('submit', function(e) {
-      const playerID = document.getElementById('player_id').value;
-      const phone = document.getElementById('whatsapp').value;
-      const messageDiv = document.getElementById('orderMessage');
-      messageDiv.innerText = '';
-
-      if (!isValidPlayerID(playerID)) {
-        e.preventDefault();
-        messageDiv.innerText = '⚠️ يرجى إدخال معرف لاعب صحيح (8 إلى 13 رقم).';
-        return;
-      }
-      if (!isValidPhone(phone)) {
-        e.preventDefault();
-        messageDiv.innerText = '⚠️ رقم الهاتف غير صحيح. يجب أن يبدأ بـ 222 ويليه 8 أرقام.';
-        return;
-      }
-
-      document.getElementById('orderSuccess').innerText = '✅ تم إرسال الطلب بنجاح. شكراً لك!';
-    });
-  </script>
 </body>
 </html>
