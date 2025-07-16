@@ -12,19 +12,25 @@
       direction: rtl;
       text-align: right;
       color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
     .container {
       background: white;
       max-width: 450px;
-      margin: auto;
-      padding: 25px 30px;
+      margin: 20px auto 40px;
+      padding: 30px 35px;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-sizing: border-box;
     }
     h2 {
       margin-bottom: 20px;
       color: #2c3e50;
       font-weight: 700;
+      text-align: center;
     }
     label {
       display: block;
@@ -40,11 +46,18 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    select:focus {
+      border-color: #27ae60;
+      outline: none;
+      background-color: #f0fff4;
     }
     button {
       margin-top: 25px;
       width: 100%;
-      padding: 12px 0;
+      padding: 14px 0;
       background-color: #27ae60;
       border: none;
       color: white;
@@ -53,16 +66,59 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      box-shadow: 0 4px 6px rgba(39, 174, 96, 0.5);
     }
     button:hover {
       background-color: #219150;
     }
+    button:disabled {
+      background-color: #a3c9a8;
+      cursor: default;
+      box-shadow: none;
+    }
+    .info-text {
+      font-size: 14px;
+      color: #555;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    .confirmation {
+      max-width: 450px;
+      margin: 20px auto;
+      padding: 15px 20px;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 8px;
+      display: none;
+      text-align: center;
+      font-weight: 600;
+    }
+    footer {
+      max-width: 450px;
+      margin: 0 auto 30px;
+      font-size: 14px;
+      color: #555;
+      border-top: 1px solid #ccc;
+      padding-top: 15px;
+      text-align: center;
+    }
+    footer a {
+      color: #27ae60;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 8px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h2>نموذج طلب شحن شدات ببجي</h2>
-    <form action="https://formspree.io/f/xgvzelnn" method="POST">
+    <form id="orderForm" action="https://formspree.io/f/xgvzelnn" method="POST">
       <label for="player_id">معرّف اللاعب (ID):</label>
       <input type="text" id="player_id" name="player_id" placeholder="مثال: 1234567890" required />
 
@@ -76,12 +132,45 @@
 
       <label for="whatsapp">رقم واتساب للتواصل:</label>
       <input type="text" id="whatsapp" name="whatsapp" placeholder="مثال: 222xxxxxxx" required />
+      <div class="info-text">سيتم التواصل معك عبر رقم الواتساب هذا لتأكيد الطلب.</div>
 
       <label for="transaction_number">رقم المعاملة أو المرجع:</label>
       <input type="text" id="transaction_number" name="transaction_number" placeholder="أدخل رقم المعاملة أو المرجع" required />
+      <div class="info-text">يرجى إدخال رقم إيصال الدفع أو رقم المعاملة لتسريع التحقق.</div>
 
-      <button type="submit">إرسال الطلب</button>
+      <button type="submit" id="submitBtn">إرسال الطلب</button>
     </form>
   </div>
+
+  <div class="confirmation" id="confirmationMessage">
+    شكراً لك! تم استلام طلبك بنجاح. سنتواصل معك قريباً.
+  </div>
+
+  <footer>
+    <div>هل لديك مشكلة أو استفسار؟ تواصل معنا عبر:</div>
+    <a href="https://wa.me/22227374659" target="_blank" rel="noopener">واتساب</a> |
+    <a href="tel:+22227374659">هاتف</a> |
+    <a href="mailto:babeelkheir200@gmail.com">بريد إلكتروني</a>
+  </footer>
+
+  <script>
+    // تعطيل زر الإرسال بعد الضغط لإمنع الإرسال المتكرر
+    const form = document.getElementById('orderForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const confirmation = document.getElementById('confirmationMessage');
+
+    form.addEventListener('submit', function(event) {
+      // تعطيل الزر
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري الإرسال...';
+
+      // انتظر قليلاً ثم عرض رسالة تأكيد (تستطيع تعديل لتتناسب مع رد الخادم)
+      setTimeout(() => {
+        confirmation.style.display = 'block';
+        form.style.display = 'none';
+      }, 1500);
+    });
+  </script>
+
 </body>
 </html>
