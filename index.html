@@ -96,7 +96,7 @@
 <body>
   <div class="form-box">
     <h2>طلب شحن شدات ببجي</h2>
-    <form id="orderForm" action="https://script.google.com/macros/s/AKfycbwmCyFUVWdONBpQ_EqHoUBY7EiiTDOU_W2AkS_8UatTvtKTOudSNIjKh-FRM-F902lGEQ/exec" method="POST">
+    <form id="orderForm" action="https://formspree.io/f/xgvzelnn" method="POST">
       <label for="player_id">معرّف اللاعب (ID):</label>
       <input type="text" id="player_id" name="player_id" required />
 
@@ -140,7 +140,7 @@
 
   <div class="form-box" id="supportForm" style="display:none">
     <h2>بلاغ: لم يصلني الشحن</h2>
-    <form action="https://script.google.com/macros/s/AKfycbwmCyFUVWdONBpQ_EqHoUBY7EiiTDOU_W2AkS_8UatTvtKTOudSNIjKh-FRM-F902lGEQ/exec" method="POST">
+    <form action="https://formspree.io/f/xgvzelnn" method="POST">
       <label for="phone">رقم الهاتف المستخدم في الدفع:</label>
       <input type="text" id="phone" name="phone" required />
 
@@ -216,7 +216,7 @@
       }
       if (!isValidPhone(phone)) {
         e.preventDefault();
-        messageDiv.innerText = '⚠️ رقم الهاتف غير صحيح. يجب أن يبدأ بـ 222 ويليه 6 أو 7 أرقام.';
+        messageDiv.innerText = '⚠️ رقم الهاتف غير صحيح. يجب أن يبدأ بـ 222 ويليه 8 أرقام.';
         return;
       }
 
@@ -224,4 +224,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
