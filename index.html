@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>طلب شحن ببجي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f4f4f4;
       padding: 20px;
       direction: rtl;
       color: #333;
@@ -72,6 +73,24 @@
       margin-top: 10px;
       font-size: 14px;
     }
+    .success {
+      color: green;
+      margin-top: 15px;
+      text-align: center;
+    }
+    #installApp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #34495e;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -110,6 +129,7 @@
       </div>
 
       <div id="orderMessage" class="error"></div>
+      <div id="orderSuccess" class="success"></div>
       <button type="submit">إرسال الطلب</button>
     </form>
 
@@ -151,17 +171,56 @@
     </form>
   </div>
 
+  <button id="installApp" style="display: none">📲 تثبيت التطبيق</button>
+
   <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('installApp');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choiceResult => {
+          if (choiceResult.outcome === 'accepted') {
+            installBtn.style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      }
+    });
+
     function isValidPlayerID(id) {
       return /^\d{8,13}$/.test(id);
     }
 
+    function isValidPhone(phone) {
+      return /^222\d{6,7}$/.test(phone);
+    }
+
     document.getElementById('orderForm').addEventListener('submit', function(e) {
       const playerID = document.getElementById('player_id').value;
+      const phone = document.getElementById('whatsapp').value;
+      const messageDiv = document.getElementById('orderMessage');
+      messageDiv.innerText = '';
+
       if (!isValidPlayerID(playerID)) {
         e.preventDefault();
-        document.getElementById('orderMessage').innerText = '⚠️ يرجى إدخال معرف لاعب صحيح (8 إلى 13 رقم).';
+        messageDiv.innerText = '⚠️ يرجى إدخال معرف لاعب صحيح (8 إلى 13 رقم).';
+        return;
       }
+      if (!isValidPhone(phone)) {
+        e.preventDefault();
+        messageDiv.innerText = '⚠️ رقم الهاتف غير صحيح. يجب أن يبدأ بـ 222 ويليه 6 أو 7 أرقام.';
+        return;
+      }
+
+      document.getElementById('orderSuccess').innerText = '✅ تم إرسال الطلب بنجاح. شكراً لك!';
     });
   </script>
 </body>
