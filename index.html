@@ -1,116 +1,62 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>شحن شدات ببجي - خدمة موثوقة</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>شحن شدات ببجي</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      background-color: #f2f2f2;
+      text-align: center;
       padding: 20px;
-      direction: rtl;
     }
     .container {
       background: white;
-      padding: 20px;
-      max-width: 500px;
+      max-width: 400px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
       border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
     }
     input, select, button {
       width: 100%;
-      margin-top: 10px;
       padding: 10px;
+      margin: 10px 0;
       border-radius: 6px;
       border: 1px solid #ccc;
     }
     button {
-      background: #28a745;
+      background-color: #28a745;
       color: white;
-      font-size: 16px;
+      border: none;
+      cursor: pointer;
     }
-    .price-box {
-      background: #eee;
-      padding: 10px;
-      margin-top: 10px;
-      text-align: center;
-      border-radius: 6px;
+    button:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>طلب شحن شدات ببجي</h2>
+    <form action="#" method="POST">
+      <label>معرّف اللاعب (ID):</label>
+      <input type="text" name="player_id" placeholder="مثال: 1234567890" required />
 
-<div class="container">
-  <h2>شحن شدات ببجي</h2>
-  <label>آيدي اللاعب</label>
-  <input type="text" id="pubgId" placeholder="مثال: 1234567890">
+      <label>عدد الشدات المطلوبة:</label>
+      <select name="uc_amount" required>
+        <option value="60">60 شدة - 1.29 دولار</option>
+        <option value="325">325 شدة - 6.49 دولار</option>
+        <option value="660">660 شدة - 12.99 دولار</option>
+        <option value="1800">1800 شدة - 32.49 دولار</option>
+      </select>
 
-  <label>عدد الشدات المطلوبة</label>
-  <select id="ucAmount">
-    <option value="">اختر عدد الشدات</option>
-    <option value="60" data-price="0.85">60 UC</option>
-    <option value="325" data-price="4.25">325 UC</option>
-    <option value="660" data-price="8.5">660 UC</option>
-    <option value="1800" data-price="21.5">1800 UC</option>
-    <option value="3850" data-price="42.5">3850 UC</option>
-  </select>
+      <label>رقم واتساب للتواصل:</label>
+      <input type="text" name="whatsapp" placeholder="مثال: 222xxxxxxx" required />
 
-  <div class="price-box" id="finalPrice">السعر الإجمالي: -</div>
-
-  <label>العملة</label>
-  <select id="currency">
-    <option value="usd" selected>دولار أمريكي</option>
-    <option value="mru">أوقية موريتانية</option>
-  </select>
-
-  <label>إرفق صورة لإثبات الدفع</label>
-  <input type="file" id="paymentProof">
-
-  <button onclick="submitOrder()">إرسال الطلب</button>
-</div>
-
-<script>
-  const ucSelect = document.getElementById("ucAmount");
-  const priceBox = document.getElementById("finalPrice");
-  const currencySelect = document.getElementById("currency");
-
-  const exchangeRate = 40;
-
-  function calculatePrice() {
-    const selected = ucSelect.options[ucSelect.selectedIndex];
-    const basePrice = parseFloat(selected.getAttribute("data-price"));
-    const currency = currencySelect.value;
-
-    if (!isNaN(basePrice)) {
-      let total = (basePrice * 1.15);
-      if (currency === "mru") {
-        total *= exchangeRate;
-        priceBox.innerText = `السعر الإجمالي: ${total.toFixed(0)} أوقية`;
-      } else {
-        priceBox.innerText = `السعر الإجمالي: ${total.toFixed(2)} دولار`;
-      }
-    } else {
-      priceBox.innerText = "السعر الإجمالي: -";
-    }
-  }
-
-  ucSelect.addEventListener("change", calculatePrice);
-  currencySelect.addEventListener("change", calculatePrice);
-
-  function submitOrder() {
-    const id = document.getElementById("pubgId").value;
-    const uc = ucSelect.value;
-    const file = document.getElementById("paymentProof").files[0];
-
-    if (!id || !uc || !file) {
-      alert("يرجى ملء جميع الحقول وإرفاق إثبات الدفع.");
-      return;
-    }
-
-    alert("تم إرسال الطلب! سيتم التواصل معك قريبًا.");
-  }
-</script>
-
+      <button type="submit">إرسال الطلب</button>
+    </form>
+  </div>
 </body>
 </html>
